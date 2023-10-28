@@ -5,6 +5,45 @@ import RelatedMovies from "./components/RelatedMovies";
 export default function Movie() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [submittedRating, setSubmittedRating] = useState(0);
+  const [submittedReview, setSubmittedReview] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const handleRatingChange = (event) => {
+    setRating(event.target.value);
+  };
+
+  const handleReviewSubmit = () => {
+    // Store the user's rating and review in localStorage
+    localStorage.setItem(
+      `movieReview-${movieId}`,
+      JSON.stringify({ rating, review })
+    );
+    // Update the submitted rating and review states
+    setSubmittedRating(rating);
+    setSubmittedReview(review);
+    setRating(0);
+    setReview("");
+  };
+
+  useEffect(() => {
+    const storedReview = localStorage.getItem(`movieReview-${movieId}`);
+    if (storedReview) {
+      const { rating: storedRating, review: storedReviewText } =
+        JSON.parse(storedReview);
+      setSubmittedRating(storedRating);
+      setSubmittedReview(storedReviewText);
+      setIsSubmitted(true);
+    } else {
+      setIsSubmitted(false);
+    }
+  }, [movieId, rating, review]);
 
   const fetchMovieDetails = async () => {
     try {
@@ -58,6 +97,46 @@ export default function Movie() {
           <p>Rating: {movie.vote_average}/10</p>
         </div>
       </div>
+      <div className="my-10 container mx-auto flex flex-col md:flex-row justify-between space-y-6 px-6">
+        {isSubmitted ? (
+          <div>
+            <p className="text-xl">Your Rating: {submittedRating}/10</p>
+            <p className="text-xl">Your Review: {submittedReview}</p>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center space-x-6">
+              <p className="text-xl">Rate The Movie:</p>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={rating}
+                onChange={handleRatingChange}
+                className="w-14 h-8 px-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
+              />
+            </div>
+            <div className="flex items-center space-x-6">
+              <p className="text-xl">Review:</p>
+              <textarea
+                value={review}
+                onChange={handleReviewChange}
+                className="w-full h-24 px-2 py-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
+              />
+            </div>
+          </>
+        )}
+      </div>
+      {!isSubmitted && (
+        <div className="container mx-auto flex justify-center">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-slate-400"
+            onClick={handleReviewSubmit}
+          >
+            Submit
+          </button>
+        </div>
+      )}
       <RelatedMovies />
     </div>
   );
