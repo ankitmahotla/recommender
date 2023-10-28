@@ -17,7 +17,7 @@ const Favorites = ({ movies, favorites, toggleFavorite }) => {
     <div className="my-4">
       <h2 className="text-3xl font-bold mb-4">Favorite Movies</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {favoriteMovies.length > 0 ? (
+        {favoriteMovies.length > 0 &&
           favoriteMovies.map((favoriteMovie) => {
             const movie = movies.find((m) => m.id === favoriteMovie.id);
             if (!movie) {
@@ -47,11 +47,14 @@ const Favorites = ({ movies, favorites, toggleFavorite }) => {
                 </Link>
               </div>
             );
-          })
-        ) : (
-          <p>No favorite movies yet. Add some by clicking the star icon.</p>
-        )}
+          })}
       </div>
+
+      {!favoriteMovies.length && (
+        <p className="text-lg">
+          No favorite movies yet. Add some by clicking the star icon.
+        </p>
+      )}
     </div>
   );
 };
