@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
+import MovieTile from "./MovieTile";
 
 const Favorites = ({ favorites, toggleFavorite }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -19,30 +20,11 @@ const Favorites = ({ favorites, toggleFavorite }) => {
         {favoriteMovies.length > 0 &&
           favoriteMovies.map((favoriteMovie) => {
             return (
-              <div
+              <MovieTile
                 key={favoriteMovie.id}
-                className="bg-gray-900 rounded-lg p-4 relative mx-6 sm:mx-0"
-              >
-                <span
-                  className={`absolute top-4 right-6 cursor-pointer text-2xl text-yellow-400`}
-                  onClick={() => toggleFavorite(favoriteMovie)}
-                >
-                  ★
-                </span>
-                <Link to={`/${favoriteMovie.id}`}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${favoriteMovie.poster_path}`}
-                    alt={favoriteMovie.title}
-                    className="w-full h-60 object-cover rounded-md"
-                  />
-                  <h3 className="text-lg font-semibold mt-2">
-                    {favoriteMovie.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 mt-1">
-                    {favoriteMovie.release_date}
-                  </p>
-                </Link>
-              </div>
+                movie={favoriteMovie}
+                toggleFavorite={toggleFavorite}
+              />
             );
           })}
       </div>

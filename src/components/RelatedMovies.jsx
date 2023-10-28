@@ -18,12 +18,9 @@ export default function RelatedMovies() {
 
       const data = await response.json();
       console.log(data);
-
-      // Set the state with the fetched related movies
       setRelatedMovies(data.results);
     } catch (error) {
       console.error("Error fetching related movies:", error);
-      // Handle errors (e.g., API request error)
     }
   };
 
@@ -46,14 +43,13 @@ export default function RelatedMovies() {
                 className="bg-gray-900 rounded-lg p-4 mx-6 sm:mx-0"
               >
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // Use the correct image URL
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className="w-full h-60 object-cover rounded-md"
                 />
                 <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
                 <p className="text-sm text-gray-400 mt-1">
                   {movie.release_date}{" "}
-                  {/* You can format this date if needed */}
                 </p>
               </Link>
             ))}

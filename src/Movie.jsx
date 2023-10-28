@@ -16,9 +16,12 @@ export default function Movie() {
   };
 
   const handleRatingChange = (event) => {
-    setRating(event.target.value);
-  };
+    const newRating = parseInt(event.target.value);
 
+    if (!isNaN(newRating) && newRating >= 0 && newRating <= 10) {
+      setRating(newRating);
+    }
+  };
   const handleReviewSubmit = () => {
     localStorage.setItem(
       `movieReview-${movieId}`,
@@ -62,15 +65,14 @@ export default function Movie() {
         release_date: data.release_date,
         vote_average: data.vote_average,
         poster_path: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
-        runtime: data.runtime, // Add runtime
-        genres: data.genres, // Add genres
-        tagline: data.tagline, // Add tagline
-        overview: data.overview, // Add overview
-        homepage: data.homepage, // Add homepage
+        runtime: data.runtime,
+        genres: data.genres,
+        tagline: data.tagline,
+        overview: data.overview,
+        homepage: data.homepage,
       });
     } catch (error) {
       console.error("Error fetching movie details:", error);
-      // Handle errors (e.g., movie not found, API request error)
     }
   };
 
@@ -129,6 +131,7 @@ export default function Movie() {
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-slate-400"
             onClick={handleReviewSubmit}
+            disabled={rating === 0 || review === ""}
           >
             Submit
           </button>
