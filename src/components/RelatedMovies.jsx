@@ -7,7 +7,6 @@ export default function RelatedMovies() {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   const fetchFavoritesFromLocalStorage = () => {
-    // Check if there are favorites in localStorage
     const storedFavorites = localStorage.getItem("favorites");
 
     if (storedFavorites) {
@@ -61,8 +60,7 @@ export default function RelatedMovies() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {relatedMovies.map((movie, index) => (
-              <Link
-                to={`/${movie.id}`}
+              <div
                 key={index}
                 className="bg-gray-900 rounded-lg p-4 mx-6 sm:mx-0 relative"
               >
@@ -77,16 +75,18 @@ export default function RelatedMovies() {
                 >
                   ★
                 </span>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  className="w-full h-60 object-cover rounded-md"
-                />
-                <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
-                <p className="text-sm text-gray-400 mt-1">
-                  {movie.release_date}
-                </p>
-              </Link>
+                <Link to={`/${movie.id}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    className="w-full h-60 object-cover rounded-md"
+                  />
+                  <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
+                  <p className="text-sm text-gray-400 mt-1">
+                    {movie.release_date}
+                  </p>
+                </Link>
+              </div>
             ))}
           </div>
         )}
