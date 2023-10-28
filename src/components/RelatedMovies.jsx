@@ -4,6 +4,29 @@ import { useParams, Link } from "react-router-dom";
 export default function RelatedMovies() {
   const { movieId } = useParams();
   const [relatedMovies, setRelatedMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  const fetchFavoritesFromLocalStorage = () => {
+    // Check if there are favorites in localStorage
+    const storedFavorites = localStorage.getItem("favorites");
+
+    if (storedFavorites) {
+      const favoritesArray = JSON.parse(storedFavorites);
+      setFavoriteMovies(favoritesArray);
+    }
+  };
+
+  const toggleFavorite = (movie) => {
+    const isFavorite = favoriteMovies.some((fav) => fav.id === movie.id);
+    let updatedFavorites;
+    if (isFavorite) {
+      updatedFavorites = favoriteMovies.filter((fav) => fav.id !== movie.id);
+    } else {
+      updatedFavorites = [...favoriteMovies, movie];
+    }
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setFavoriteMovies(updatedFavorites);
+  };
 
   const fetchRelatedMovies = async () => {
     try {
@@ -26,6 +49,7 @@ export default function RelatedMovies() {
 
   useEffect(() => {
     fetchRelatedMovies();
+    fetchFavoritesFromLocalStorage();
   }, [movieId]);
 
   return (
@@ -40,8 +64,19 @@ export default function RelatedMovies() {
               <Link
                 to={`/${movie.id}`}
                 key={index}
-                className="bg-gray-900 rounded-lg p-4 mx-6 sm:mx-0"
+                className="bg-gray-900 rounded-lg p-4 mx-6 sm:mx-0 relative"
               >
+                <span
+                  className={
+                    `absolute top-4 right-6 cursor-pointer text-2xl ` +
+                    (favoriteMovies.some((fav) => fav.id === movie.id)
+                      ? "text-yellow-400"
+                      : "")
+                  }
+                  onClick={() => toggleFavorite(movie)}
+                >
+                  ★
+                </span>
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
@@ -49,7 +84,7 @@ export default function RelatedMovies() {
                 />
                 <h3 className="text-lg font-semibold mt-2">{movie.title}</h3>
                 <p className="text-sm text-gray-400 mt-1">
-                  {movie.release_date}{" "}
+                  {movie.release_date}
                 </p>
               </Link>
             ))}
