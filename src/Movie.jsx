@@ -81,7 +81,7 @@ export default function Movie() {
   }, [movieId]);
 
   return (
-    <div className="text-white p-4 md:pt-20">
+    <div className="text-white p-4 md:pt-8">
       <div className="container mx-auto flex flex-col items-center md:flex-row space-x-10">
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -91,12 +91,12 @@ export default function Movie() {
         <div>
           <h1 className="text-2xl font-bold my-4">{movie.title}</h1>
           <p className="mt-2 text-xl">{movie.tagline}</p>
-          <p className="mt-2">{movie.overview}</p>
+          <p className="mt-2 mr-10">{movie.overview}</p>
           <p className="mt-4">Release Date: {movie.release_date}</p>
           <p>Rating: {movie.vote_average}/10</p>
         </div>
       </div>
-      <div className="my-10 container mx-auto flex flex-col md:flex-row justify-between space-y-6 px-6">
+      <div className="my-5 container mx-auto flex flex-col md:flex-row justify-between space-y-6 px-6">
         {isSubmitted ? (
           <div>
             <p className="text-xl">Your Rating: {submittedRating}/10</p>
@@ -120,7 +120,7 @@ export default function Movie() {
               <textarea
                 value={review}
                 onChange={handleReviewChange}
-                className="w-full h-24 px-2 py-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
+                className="w-96 h-32 px-2 py-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
               />
             </div>
           </>
