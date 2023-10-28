@@ -26,7 +26,7 @@ const Favorites = ({ movies, favorites, toggleFavorite }) => {
             return (
               <div
                 key={movie.id}
-                className="bg-gray-900 rounded-lg p-4 relative"
+                className="bg-gray-900 rounded-lg p-4 relative mx-6 sm:mx-0"
               >
                 <span
                   className={`absolute top-4 right-6 cursor-pointer text-2xl text-yellow-400`}

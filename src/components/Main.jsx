@@ -56,8 +56,8 @@ export default function Main() {
   };
 
   return (
-    <div className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto  h-full">
+    <div className="bg-gray-800 text-center text-white py-12">
+      <div className="container mx-auto h-full">
         <Favorites
           movies={movies}
           favorites={favorites}
@@ -94,7 +94,7 @@ export default function Main() {
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-6 items-center">
+        <div className="flex justify-between m-6 items-center">
           <button
             onClick={handlePrevPageClick}
             className="flex items-center text-xl"
