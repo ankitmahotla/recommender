@@ -20,12 +20,10 @@ export default function Movie() {
   };
 
   const handleReviewSubmit = () => {
-    // Store the user's rating and review in localStorage
     localStorage.setItem(
       `movieReview-${movieId}`,
       JSON.stringify({ rating, review })
     );
-    // Update the submitted rating and review states
     setSubmittedRating(rating);
     setSubmittedReview(review);
     setRating(0);
@@ -59,7 +57,6 @@ export default function Movie() {
       const data = await response.json();
       console.log(data);
 
-      // Process the data and set the state with the fetched movie details
       setMovie({
         title: data.original_title,
         release_date: data.release_date,

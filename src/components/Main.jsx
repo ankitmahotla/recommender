@@ -5,26 +5,26 @@ import Favorites from "./Favorites";
 export default function Main() {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allFavorites, setAllFavorites] = useState([]);
 
-  // Initialize the favorites state from localStorage when the component mounts.
-  const initialFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  const [favorites, setFavorites] = useState(initialFavorites);
+  useEffect(() => {
+    const initialFavorites =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    setAllFavorites(initialFavorites);
+  }, []);
 
   const toggleFavorite = (movie) => {
-    const isFavorite = favorites.some((fav) => fav.id === movie.id);
+    const isFavorite = allFavorites.some((fav) => fav.id === movie.id);
     let updatedFavorites;
 
     if (isFavorite) {
-      updatedFavorites = favorites.filter((fav) => fav.id !== movie.id);
+      updatedFavorites = allFavorites.filter((fav) => fav.id !== movie.id);
     } else {
-      updatedFavorites = [...favorites, movie];
+      updatedFavorites = [...allFavorites, movie];
     }
-
-    // Store the updated favorites list in localStorage.
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 
-    // Update the favorites state.
-    setFavorites(updatedFavorites);
+    setAllFavorites(updatedFavorites);
   };
 
   const getMovies = (page) => {
@@ -58,11 +58,7 @@ export default function Main() {
   return (
     <div className="bg-gray-800 text-center text-white py-12">
       <div className="container mx-auto h-full">
-        <Favorites
-          movies={movies}
-          favorites={favorites}
-          toggleFavorite={toggleFavorite}
-        />
+        <Favorites favorites={allFavorites} toggleFavorite={toggleFavorite} />
         <h2 className="text-3xl font-bold my-6">Discover the Latest Movies</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {movies.map((movie, index) => (
@@ -72,8 +68,8 @@ export default function Main() {
             >
               <span
                 className={`absolute top-4 right-6 cursor-pointer text-2xl ${
-                  favorites.some((fav) => fav.id === movie.id)
-                    ? "text-yellow-400" // Change star color if in favorites
+                  allFavorites.some((fav) => fav.id === movie.id)
+                    ? "text-yellow-400"
                     : "text-gray-300"
                 }`}
                 onClick={() => toggleFavorite(movie)}

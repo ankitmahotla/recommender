@@ -12,7 +12,6 @@ export default function Navbar() {
     setSearchTerm(query);
 
     if (query) {
-      // Make a request to the TMDb API to search for movies using fetch
       fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=${
           import.meta.env.VITE_API_KEY
